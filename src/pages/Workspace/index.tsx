@@ -1,37 +1,39 @@
-import React, { useState } from "react";
-import { Layout } from "antd";
-import { useQueryClient } from "@tanstack/react-query";
+import Bread from "@/components/Bread";
 // component
-import Sider from "@/components/Layout/Sider";
-import Content from "@/components/Layout/Content";
-// API
-import { useWsByUserId } from "@/hooks/Workspace";
-import { useKanbans } from "@/hooks/Kanban";
+import { ContextType } from "@/components/Layout/Content";
+import { KanbanGroup } from "@/components/Kanban";
+import React from "react";
+import { Typography } from "antd";
+import { useOutletContext } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+
+const { Title } = Typography;
 
 const Workspace: React.FC = () => {
   const queryClient = useQueryClient();
-  const [isShowSider, setIsShowSider] = useState(true);
+  const { isShowSider } = useOutletContext<ContextType>();
 
   const user = queryClient.getQueryData(["useAuth"]) as IUser;
 
-  const { data: queryWs } = useWsByUserId({
-    userId: user._id,
-  });
-
-  const { data: queryKanbans } = useKanbans({
-    userId: user._id,
-  });
+  const queryWs = queryClient.getQueryData([
+    "useWsByUserId",
+    user._id,
+  ]) as IqueryWorkspaces;
 
   return (
-    <Layout className="h-[calc(100vh_-_80px)]">
-      <Sider
-        queryWs={queryWs}
-        queryKanbans={queryKanbans}
-        isShowSider={isShowSider}
-        setIsShowSider={setIsShowSider}
-      />
-      <Content isShowSider={isShowSider} queryWs={queryWs} />
-    </Layout>
+    <>
+      <Bread />
+      <Title className="mt-5 mb-7">Overview</Title>
+      <section className="overflow-y-auto flex flex-col gap-6 flex-1 p-2">
+        {queryWs?.workspaces?.map((workspace) => (
+          <KanbanGroup
+            key={workspace._id}
+            workspace={workspace}
+            isShowSider={isShowSider}
+          />
+        ))}
+      </section>
+    </>
   );
 };
 

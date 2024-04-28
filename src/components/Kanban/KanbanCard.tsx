@@ -1,13 +1,14 @@
-import React from "react";
 import { Flex, Typography } from "antd";
+// util function
+import { navigateKanban, switchPinned } from "@/util/kanban";
+
 import { EllipsisOutlined } from "@ant-design/icons";
+import React from "react";
+// component
+import Star from "../Star";
 import { useNavigate } from "react-router-dom";
 // api
 import { usePinned } from "@/hooks/Kanban";
-// util function
-import { switchPinned } from "@/util/kanban";
-// component
-import Star from "../Star";
 
 const { Title } = Typography;
 
@@ -16,8 +17,8 @@ interface Iprops {
 }
 
 const KanbanCard: React.FC<Iprops> = ({ kanban }) => {
-  const navigate = useNavigate();
   const mutatePinned = usePinned();
+  const navigate = useNavigate();
   // switch kanban isPinned
   const onClick = (e: React.MouseEvent) => {
     switchPinned(kanban, mutatePinned);
@@ -30,7 +31,7 @@ const KanbanCard: React.FC<Iprops> = ({ kanban }) => {
       vertical
       justify="space-between"
       className="cursor-pointer bg-white rounded-md shadow-md h-[130px] px-4 py-2"
-      onClick={() => navigate(`/kanban/${kanban.workspaceId}/${kanban._id}`)}
+      onClick={() => navigateKanban(navigate, kanban)}
     >
       <Flex justify="space-between">
         <Title level={5}>{kanban.name}</Title>

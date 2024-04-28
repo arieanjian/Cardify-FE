@@ -1,12 +1,15 @@
 declare const __VERSION__: string;
-import React from "react";
+
+// style
+import "react-multi-carousel/lib/styles.css";
+
+import { App as AntdApp, ConfigProvider } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConfigProvider, App as AntdApp } from "antd";
+
+import React from "react";
 import Routers from "./routes";
 // antd theme
 import antdTheme from "./styles/antdTheme";
-// style
-import "react-multi-carousel/lib/styles.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +22,7 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
   console.log(__VERSION__);
+
   return (
     <QueryClientProvider client={queryClient}>
       <ConfigProvider theme={antdTheme}>

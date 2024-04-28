@@ -27,7 +27,8 @@ export default {
       Roboto: ["Roboto", "sans-serif"],
     },
   },
-  plugins: [],
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
   corePlugins: {
     preflight: false,
   },

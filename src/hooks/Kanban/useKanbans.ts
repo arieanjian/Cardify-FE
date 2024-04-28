@@ -11,7 +11,7 @@ interface Iprops {
 
 const useKanbans = (props: Iprops) => {
   const { message } = App.useApp();
-  // const
+
   const { data, ...rest } = useQuery<IqueryKanbans, Error>({
     queryKey: ["useKanbans", props.userId],
     placeholderData: keepPreviousData,

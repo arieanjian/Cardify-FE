@@ -25,8 +25,8 @@ const KanbanGroup: React.FC<Iprops> = ({ workspace, isShowSider }) => {
     queryUser._id,
   ]) as IqueryKanbans;
 
-  if (!queryKanban) return;
-  if (queryKanban.kanbans.length === 0) return;
+  if (!queryKanban) return <div>null</div>;
+  if (queryKanban.kanbans.length === 0) return <div>null</div>;
 
   const displayWorkspace = () => {};
 

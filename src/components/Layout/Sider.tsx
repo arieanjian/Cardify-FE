@@ -1,34 +1,44 @@
-import React, { useState } from "react";
-import { Layout, Menu } from "antd";
-import type { MenuProps } from "antd";
 import {
   AppstoreOutlined,
   DoubleLeftOutlined,
-  StarOutlined,
-  ProjectOutlined,
   PlusCircleFilled,
   ProfileOutlined,
+  ProjectOutlined,
+  StarOutlined,
 } from "@ant-design/icons";
 // component
 import { FloatButton, MenuItem } from "../Sider";
-import { WsModal } from "@/components/Workspace";
+import { Layout, Menu } from "antd";
+import React, { useState } from "react";
+
 import { KanbanModal } from "../Kanban";
+import type { MenuProps } from "antd";
+import { WsModal } from "@/components/Workspace";
+// util function
+import { navigateKanban } from "@/util/kanban";
+import { useNavigate } from "react-router-dom";
 
 interface Iprops {
-  queryWs: Iworkspace[];
+  queryWs: IqueryWorkspaces;
   queryKanbans: IqueryKanbans;
   isShowSider: boolean;
   setIsShowSider: ISetStateFunction<boolean>;
 }
 
 const Sider: React.FC<Iprops> = (props) => {
+  const navigate = useNavigate();
   const { queryWs, queryKanbans, isShowSider, setIsShowSider } = props;
-
-  const [s_isOpen, set_s_isOpen] = useState(false);
-  const [isOpenKanban, setIsOpenKanban] = useState(false);
-  const [workspaceId, setWorkspaceId] = useState(""); // 建立 kanban 時讓後端知道要建在哪個 workspace
-
+  // 是否開啟建立 workspace 的彈窗
+  const [isCreateWorkspace, setIsCreateWorkspace] = useState(false);
+  // 是否開啟建立 kanban 的彈窗
+  const [isCreateKanban, setIsCreateKanban] = useState(false);
+  // 建立 kanban 時讓後端知道要建在哪個 workspace
+  const [workspaceId, setWorkspaceId] = useState("");
+  // 紀錄 Menu 選中的東西
   const [s_selectedKeys, set_s_selectedKeys] = useState<string[]>([]);
+
+  if (!queryKanbans) return <div>null</div>;
+  if (queryKanbans.kanbans.length === 0) return <div>null</div>;
 
   const item_basic: MenuProps["items"] = [
     {
@@ -45,47 +55,13 @@ const Sider: React.FC<Iprops> = (props) => {
       key: "Favorite_page_noSelect",
       label: "Favorite page",
       icon: <StarOutlined />,
-      // children: [
-      //   {
-      //     key: "Design team1",
-      //     label: (
-      //       <MenuItem
-      //       kanbanInfo={{
-      //           _id: "1",
-      //           workspaceId: "1",
-      //           boardName: "Design team",
-      //           isPinned: false,
-      //           owner: "Ariean",
-      //           memberIds: ["aaa"],
-      //         }}
-      //       />
-      //     ),
-      //     icon: <ProjectOutlined />,
-      //   },
-      //   {
-      //     key: "Design team2",
-      //     label: (
-      //       <MenuItem
-      //         board={{
-      //           _id: "2",
-      //           workspaceId: "2",
-      //           boardName: "Design team2",
-      //           isPinned: true,
-      //           owner: "Ariean",
-      //           memberIds: ["aaa"],
-      //         }}
-      //       />
-      //     ),
-      //     icon: <ProjectOutlined />,
-      //   },
-      // ],
     },
     {
       key: "noSelect_create",
       label: "create workspace",
       className: "text-[#7D7D7D]",
       icon: <PlusCircleFilled />,
-      onClick: () => set_s_isOpen(true),
+      onClick: () => setIsCreateWorkspace(true),
     },
     { type: "divider" },
   ];
@@ -97,6 +73,8 @@ const Sider: React.FC<Iprops> = (props) => {
           key: kanbanId,
           label: <MenuItem kanban={queryKanbans.kanbanMap[kanbanId]} />,
           icon: <ProjectOutlined />,
+          onClick: () =>
+            navigateKanban(navigate, queryKanbans.kanbanMap[kanbanId]),
         };
       }) || [];
 
@@ -104,7 +82,7 @@ const Sider: React.FC<Iprops> = (props) => {
       key: `${workspaceId}_noSelect`,
       className: "text-[#7D7D7D]",
       onClick: () => {
-        setIsOpenKanban(true);
+        setIsCreateKanban(true);
         setWorkspaceId(workspaceId);
       },
       label: (
@@ -120,19 +98,21 @@ const Sider: React.FC<Iprops> = (props) => {
     return kanbans;
   };
 
-  const item_workspaces: MenuProps["items"] = queryWs?.map((workspace) => {
-    const kanbans: MenuProps["items"] = generateKanbans(
-      workspace.kanbanIds,
-      workspace._id
-    );
+  const item_workspaces: MenuProps["items"] = queryWs?.workspaces?.map(
+    (workspace) => {
+      const kanbans: MenuProps["items"] = generateKanbans(
+        workspace.kanbanIds,
+        workspace._id
+      );
 
-    return {
-      key: workspace._id,
-      label: workspace.name,
-      icon: <ProfileOutlined />,
-      children: kanbans,
-    };
-  });
+      return {
+        key: workspace._id,
+        label: workspace.name,
+        icon: <ProfileOutlined />,
+        children: kanbans,
+      };
+    }
+  );
 
   return (
     <>
@@ -154,13 +134,17 @@ const Sider: React.FC<Iprops> = (props) => {
         />
       </Layout.Sider>
 
-      <WsModal isOpen={s_isOpen} closeWsModal={() => set_s_isOpen(false)} />
+      {/* 新增、修改 workspace 的 component */}
+      <WsModal
+        isOpen={isCreateWorkspace}
+        closeWsModal={() => setIsCreateWorkspace(false)}
+      />
 
       <KanbanModal
-        isOpen={isOpenKanban}
+        isOpen={isCreateKanban}
         workspaceId={workspaceId}
         closeKanbanModal={() => {
-          setIsOpenKanban(false);
+          setIsCreateKanban(false);
           setWorkspaceId("");
         }}
       />

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 // API
 import instance from "@/service/instance";
 // util
@@ -8,6 +8,7 @@ import { USER_INIT_VALUE } from "@/util/initValue";
 
 const useAuth = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { data, ...rest } = useQuery<IUser, Error>({
     queryKey: ["useAuth"],
     placeholderData: USER_INIT_VALUE,
@@ -22,8 +23,9 @@ const useAuth = () => {
         const { userInfo, token } = res.data as IauthResponse;
         // 取得使用者資訊時更新token
         Cookies.set("cardify-token", token);
-        // 登入成功導轉到 workspace
-        userInfo._id.length > 0 ? navigate("/workspace") : navigate("/");
+        // 如果 token 可以正常登入就倒轉到 workspace
+        location.pathname === "/" && navigate("/workspace");
+
         return userInfo;
       }
 

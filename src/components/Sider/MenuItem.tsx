@@ -1,6 +1,10 @@
 import React from "react";
 // component
 import Star from "../Star";
+// util function
+import { switchPinned } from "@/util/kanban";
+// api
+import { usePinned } from "@/hooks/Kanban";
 
 type ClickEvent = React.MouseEvent<HTMLDivElement, MouseEvent>;
 
@@ -9,7 +13,10 @@ interface Iprops {
 }
 
 const MenuItem: React.FC<Iprops> = ({ kanban }) => {
+  // 切換 kanban 是否為追蹤狀態(isPinned)
+  const mutatePinned = usePinned();
   const handelClick = (event: ClickEvent) => {
+    switchPinned(kanban, mutatePinned);
     event.stopPropagation();
   };
   if (!kanban) return;

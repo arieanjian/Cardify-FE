@@ -1,35 +1,49 @@
-import React from "react";
-import { Layout, Typography } from "antd";
+import React, { useState } from "react";
+import { Layout } from "antd";
+import { useQueryClient } from "@tanstack/react-query";
+import { Outlet } from "react-router-dom";
 // component
-import Bread from "@/components/Bread";
-import { KanbanGroup } from "@/components/Kanban";
+import Sider from "./Sider";
+// API
+import { useWsByUserId } from "@/hooks/Workspace";
+import { useKanbans } from "@/hooks/Kanban";
 
-const { Title } = Typography;
+export type ContextType = { isShowSider: boolean };
 
-interface Iprops {
-  isShowSider: boolean;
-  queryWs: Iworkspace[];
-}
+const Content: React.FC = () => {
+  const [isShowSider, setIsShowSider] = useState(true);
 
-const Content: React.FC<Iprops> = ({ queryWs, isShowSider }) => {
+  const queryClient = useQueryClient();
+  // 目前登入人員
+  const user = queryClient.getQueryData(["useAuth"]) as IUser;
+
+  const { data: queryWs } = useWsByUserId({
+    userId: user._id,
+  });
+
+  const { data: queryKanbans } = useKanbans({
+    userId: user._id,
+  });
+
   return (
-    <Layout.Content
-      className={`bg-[#F0F0F0] flex flex-col pt-5 pr-8 ${
-        isShowSider ? "pl-5" : "pl-10"
-      }`}
-    >
-      <Bread />
-      <Title className="mt-5 mb-7">Overview</Title>
-      <section className="overflow-y-auto flex flex-col gap-6 flex-1 p-2">
-        {queryWs?.map((workspace) => (
-          <KanbanGroup
-            key={workspace._id}
-            workspace={workspace}
-            isShowSider={isShowSider}
-          />
-        ))}
-      </section>
-    </Layout.Content>
+    <Layout className="h-[calc(100vh_-_80px)]">
+      <Sider
+        queryWs={queryWs}
+        queryKanbans={queryKanbans}
+        isShowSider={isShowSider}
+        setIsShowSider={setIsShowSider}
+      />
+      <Layout.Content
+        className={`bg-[#F0F0F0] flex flex-col pt-5 pr-8 ${
+          isShowSider ? "pl-5" : "pl-10"
+        }`}
+      >
+        <Outlet
+          key={queryWs?.workspaces?.length + queryKanbans?.kanbans.length} // 用來觸發 re-render
+          context={{ isShowSider } satisfies ContextType}
+        />
+      </Layout.Content>
+    </Layout>
   );
 };
 
