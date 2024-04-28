@@ -85,7 +85,7 @@ const Users: React.FC = () => {
     );
   };
   return (
-    <section className="mt-20">
+    <section className="mt-20 2xl:flex 2xl:flex-col 2xl:items-center">
       <SectionTitle className=" mb-16">User Evaluation</SectionTitle>
       {/* <div className="flex flex-col items-center gap-5">
         {UserDatas.map((userData: IstaticUser) => (

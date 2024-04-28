@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
         {navItems.map((navItem) => (
           <a
             key={navItem}
-            className="flex-1 min-w-[120px] flex-shrink-0 flex-center border-0 h-10 cursor-pointer font-bold text-lg"
+            className="flex-1 min-w-[120px] flex-shrink-0 flex-center border-0 h-10 cursor-pointer font-bold text-lg text-[#121212]"
           >
             # {navItem}
           </a>

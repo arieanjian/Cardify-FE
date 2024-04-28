@@ -1,0 +1,9 @@
+.sider .ant-menu-item-selected::after {
+  content: "";
+  width: 5px;
+  background-color: #ff4d4f;
+}
+
+.login-modal > .ant-modal-content {
+  padding: 0px;
+}

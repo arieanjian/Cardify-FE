@@ -8,15 +8,19 @@ body,
   height: 100vh;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0px;
+}
+
 @font-face {
   font-family: "Segoe Script";
   src: url("/src/assets/fonts/SegoeScript.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
-
-.btn-dark .ant-btn:not(:disabled):focus-visible {
-  outline: 4px solid green;
 }
 
 /* for Chrome, Safari and Opera */
