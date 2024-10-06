@@ -1,12 +1,13 @@
-import { Form, FormInstance, Select, SelectProps, Typography } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import { DatePicker, Form, FormInstance, Typography } from "antd";
+import React, { useContext, useState } from "react";
 
 import { KanbanContext } from "@/pages/Kanban";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Tag from "@/components/Tag";
 // component
 import TagModal from "@/components/TagModal";
-import { useParams } from "react-router-dom";
+
+// import Tags from "./Tags";
 
 export interface IProps {
   card: Icard | undefined;
@@ -17,58 +18,64 @@ const { Title, Text } = Typography;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Setting: React.FC<IProps> = ({ card, form }) => {
+  const f_tagIds = Form.useWatch("tagIds", form);
+  // 當前 kanban 的所有標籤
   const { tags } = useContext(KanbanContext);
-  const { kanbanId = "" } = useParams();
-  const [tagOptions, setTagOptions] = useState<SelectProps["options"]>([]);
+  // 是否顯示新增、修改、增加 Tag 的 Modal
   const [showTagModal, setShowTagModal] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (tags.length === 0) return;
-    const options =
-      tags?.map((tag) => ({
-        data: tag,
-        label: (
-          <Tag size="small" name={tag.name} color={tag.color} icon={tag.icon} />
-        ),
-        value: tag.id,
-      })) || [];
-    setTagOptions(options);
-  }, [tags]);
-
-  const tagRender: SelectProps["tagRender"] = (props) => {
-    // 從 props 中解構出 label，因為我們在 options 中已經定義了 label
-    const { label } = props;
-    return <span className="mr-1">{label}</span>;
+  // 當 TagModal 內的 checkBox 選擇標籤時觸發
+  const changeTags = (tagIds: string[]) => {
+    form.setFieldsValue({ tagIds: tagIds });
   };
+
   return (
     <section className="flex flex-col">
       <Title level={3} className="text-[rgb(125,125,125)] mb-2">
         Setting
       </Title>
-      <div className="flex gap-2 items-end">
-        <Form.Item
-          label={<Text strong>Tags</Text>}
-          name="tags"
-          className="m-0 flex-1"
-        >
-          <Select
-            placeholder="place select tags"
-            mode="tags"
-            tagRender={tagRender}
-            options={tagOptions}
-          />
-        </Form.Item>
-        <PlusCircleOutlined
-          className="text-2xl mb-1 cursor-pointer"
-          onClick={() => setShowTagModal(true)}
-        />
-      </div>
+      {/* Tag */}
+      <section className="flex flex-col w-full">
+        <Typography.Title level={5} className="text-[rgb(0,0,0,0.88)] mb-2">
+          Tags
+        </Typography.Title>
 
-      <TagModal
-        kanbanId={kanbanId}
-        showTagModal={showTagModal}
-        setShowTagModal={setShowTagModal}
-      />
+        <div className="flex gap-1 w-full">
+          {f_tagIds?.map((tagId: string) => {
+            const tag = tags.map?.[tagId];
+            return tag ? <Tag key={tag.id} size="small" tag={tag} /> : null;
+          })}
+          <PlusCircleOutlined
+            className="text-2xl mb-1 cursor-pointer"
+            onClick={() => setShowTagModal(true)}
+          />
+        </div>
+
+        <TagModal
+          showTagModal={showTagModal}
+          setShowTagModal={setShowTagModal}
+          initValue={f_tagIds || []}
+          changeTags={changeTags}
+        />
+      </section>
+
+      {/* Period 日期選擇器 */}
+      <section className="mt-2 w-full flex gap-2 ">
+        <Form.Item
+          label={<Text strong>Target Period</Text>}
+          name="target"
+          className="flex-1"
+        >
+          <DatePicker.RangePicker className="w-full" />
+        </Form.Item>
+        <Form.Item
+          label={<Text strong>Actual Period</Text>}
+          name="actual"
+          className="flex-1"
+        >
+          <DatePicker.RangePicker className="w-full" />
+        </Form.Item>
+      </section>
     </section>
   );
 };

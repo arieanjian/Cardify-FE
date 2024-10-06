@@ -1,42 +1,56 @@
-import { Modal } from "antd";
-import React from "react";
+import React, { useState } from "react";
+
 // component
-import TagModal from "./TagModal";
+import CreateModal from "./CreateModal";
+import { Modal } from "antd";
+import SelectTagModal from "./SelectTagModal";
 
 interface IProps {
-  tag?: Itag;
-  kanbanId: string;
   showTagModal: boolean;
   setShowTagModal: ISetStateFunction<boolean>;
+  changeTags: (tagIds: string[]) => void; // 當 checkBox 選擇標籤時觸發
+  initValue: string[];
+  afterClose?: () => void;
 }
 
 const Index: React.FC<IProps> = ({
   showTagModal,
   setShowTagModal,
-  tag,
-  kanbanId,
+  changeTags, // 當 checkBox 選擇標籤時觸發
+  initValue, // 目前卡片已經選擇的 Tag Id
+  afterClose = () => {},
 }) => {
-  // 目前是否為編輯模式
-  const type = tag === undefined ? "Create" : "Edit";
+  const [type, setType] = useState<"create" | "edit">("edit"); // 選擇 tag 或是新增 tag
+  const [tag, setTag] = useState<Itag | undefined>(undefined);
 
+  // 關閉 Modal
   const closeTagModal = () => {
     setShowTagModal(false);
   };
+
   return (
     <Modal
-      title={type === "Create" ? "Create Tag" : "Edit Tag"}
+      title={<div className="flex-center text-xl">Tag</div>}
       width="300px"
       open={showTagModal}
       onCancel={closeTagModal}
+      className="tagModal"
       footer={null}
       maskClosable={false}
       destroyOnClose
+      afterClose={afterClose}
     >
-      <TagModal
-        kanbanId={kanbanId}
-        closeTagModal={closeTagModal}
-        tag={type === "Edit" ? tag : undefined}
-      />
+      {type === "create" ? (
+        <CreateModal setType={setType} tag={tag} setTag={setTag} />
+      ) : (
+        <SelectTagModal //  選擇卡片要哪些 Tag 的 Component
+          setType={setType}
+          setTag={setTag}
+          changeTags={changeTags}
+          initValue={initValue}
+          // selectedTagIds={selectedTagIds}
+        />
+      )}
     </Modal>
   );
 };

@@ -8,9 +8,16 @@ interface Ikanban {
 
 type IkanbanMap = Record<string, Ikanban>;
 
+interface ITagsContext {
+  array: Itag[];
+  map: Record<string, Itag>;
+}
+
 interface IkanbanContext {
-  tags: Itag[];
-  setTags: ISetStateFunction<Itag[]>;
+  tags: ITagsContext;
+  setTags: ISetStateFunction<ITagsContext>;
+  narrowMold: boolean;
+  setNarrowMold: ISetStateFunction<boolean>;
 }
 
 interface IqueryKanbans {

@@ -6,8 +6,8 @@ import { useSortable } from "@dnd-kit/sortable";
 
 interface IProps {
   list: Ilist;
-  tasks: Task[];
-  setTasks: ISetStateFunction<Task[]>;
+  tasks: Icard[];
+  setTasks: ISetStateFunction<Icard[]>;
 }
 
 // dndkit 目前有已知的效能問題，所以將 dndkit 的元件拆開，避免整個 List 重新 render
@@ -37,6 +37,7 @@ const CustUseSortable: React.FC<IProps> = (props) => {
   };
 
   const MemoList = useMemo(() => {
+    // console.log("GGG tasks = ", tasks[0]?.listId);
     return (
       <List
         list={list}

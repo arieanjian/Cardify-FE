@@ -9,6 +9,7 @@ const { Title, Text } = Typography;
 
 interface IProps {
   list: Ilist;
+  cardLength: number;
   setIsDndDisabled: ISetStateFunction<boolean>;
 }
 type InputEvent =
@@ -17,7 +18,11 @@ type InputEvent =
 
 type KeyboardEvent = React.KeyboardEvent<HTMLInputElement>;
 
-const ListTitle: React.FC<IProps> = ({ list, setIsDndDisabled }) => {
+const ListTitle: React.FC<IProps> = ({
+  list,
+  setIsDndDisabled,
+  cardLength,
+}) => {
   // 改變 list 名稱
   const { mutate } = useChangeListName();
   // 是否編輯 list 名稱
@@ -78,7 +83,7 @@ const ListTitle: React.FC<IProps> = ({ list, setIsDndDisabled }) => {
           className="text-xl transition-all duration-[400ms] hover:scale-125"
         />
       </div>
-      <Text type="secondary">2 cards</Text>
+      <Text type="secondary">{cardLength} cards</Text>
     </section>
   );
 };

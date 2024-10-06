@@ -1,4 +1,5 @@
 const direction = [
+  "Bell",
   "StepBackward",
   "StepForward",
   "FastBackward",

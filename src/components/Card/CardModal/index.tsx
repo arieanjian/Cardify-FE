@@ -16,6 +16,7 @@ const Index: React.FC<IProps> = ({
   isShowModal,
   setIsShowModal,
   card,
+  listId,
   setIsDndDisabled,
 }) => {
   // antd 用來監聽畫面寬度變化
@@ -74,6 +75,7 @@ const Index: React.FC<IProps> = ({
     >
       <CardModal
         closeCardModal={closeCardModal}
+        listId={listId}
         card={type === "Edit" ? card : undefined}
         setIsShowModal={setIsShowModal}
       />

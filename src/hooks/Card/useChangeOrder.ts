@@ -3,16 +3,21 @@ import { App } from "antd";
 import instance from "@/service/instance";
 import { useMutation } from "@tanstack/react-query";
 
-interface Iprops {
-  onSuccess: () => void;
+// interface Iprops {
+//   onSuccess: () => void;
+// }
+
+export interface IchangeOrder {
+  activeCard: Icard;
+  targetCard: Icard;
 }
 
-const useUpdateTag = ({ onSuccess }: Iprops) => {
+const useChangeOrder = () => {
   const { message } = App.useApp();
   return useMutation({
-    mutationFn: async (mutation_data: Itag) => {
+    mutationFn: async (mutation_data: IchangeOrder) => {
       const res: IapiResponse = await instance.post(
-        "/tag/updateTag",
+        "/card/changeOrder",
         mutation_data
       );
       const { data, msg, status } = res;
@@ -24,10 +29,7 @@ const useUpdateTag = ({ onSuccess }: Iprops) => {
 
       message.error(msg);
     },
-    onSuccess: async () => {
-      onSuccess();
-    },
   });
 };
 
-export default useUpdateTag;
+export default useChangeOrder;

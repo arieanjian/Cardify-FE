@@ -8,6 +8,10 @@ export default {
       // colorBgHeader: "#17212B", // colorBgBase -3% lightness, i've pre-calculated these values manually, but it'd be smart to use color.js or something like that to manage these manipulations
       // colorBgSider: "red",
     },
+    Checkbox: {
+      colorBorder: "rgb(107, 105, 105)",
+      lineWidth: 2,
+    },
     Modal: {
       contentBg: "rgb(245, 245, 245)",
       headerBg: "rgb(245, 245, 245)",

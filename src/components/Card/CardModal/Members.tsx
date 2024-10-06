@@ -17,12 +17,16 @@ const Members: React.FC<IProps> = ({ form }) => {
   const queryClient = useQueryClient();
   // 如果是新增狀態，則取得當前使用者
   const owner_user = queryClient.getQueryData(["useAuth"]) as IUser;
+
   // 取得所有人員資料
   const { data: queryUsers } = useUsers({ username: "all" });
   // 取得所有人員資料，用來顯示成員頭像
   const [userMap, setUserMap] = useState<Record<string, IUser>>({});
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const f_memberIds = Form.useWatch("memberIds", form);
+  console.log("owner_user = ", owner_user);
+  console.log("f_memberIds = ", f_memberIds);
+  console.log("userMap = ", userMap);
 
   // 將所有人員資料轉換成 map 方便查找
   useEffect(() => {
@@ -79,14 +83,15 @@ const Members: React.FC<IProps> = ({ form }) => {
         <div className="flex flex-col gap-2 flex-1">
           <Tag className="w-14">Owner</Tag>
           <div className="flex flex-1 gap-[15px]">
-            {f_memberIds?.map((memberId: string) => (
-              <Avatar
-                key={memberId}
-                user={userMap[memberId]}
-                size={30}
-                onDelete={() => deleteMember(memberId)}
-              />
-            ))}
+            {Object.keys(userMap).length > 0 &&
+              f_memberIds?.map((memberId: string) => (
+                <Avatar
+                  key={memberId}
+                  user={userMap[memberId]}
+                  size={30}
+                  onDelete={() => deleteMember(memberId)}
+                />
+              ))}
           </div>
         </div>
       </section>

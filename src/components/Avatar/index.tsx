@@ -18,7 +18,7 @@ const Avatar: React.FC<IProps> = ({ user, onDelete, ...rest }) => {
       <AntdAvatar
         size={32}
         src={
-          user.avatar.length > 0 &&
+          user?.avatar?.length > 0 &&
           `https://cdn.filestackcontent.com/${user.avatar}`
         }
         className="cursor-pointer bg-gray-500"

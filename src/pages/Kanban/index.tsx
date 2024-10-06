@@ -1,16 +1,22 @@
+import React, { useState } from "react";
+
 // component
 import Bread from "@/components/Bread";
 import { ListGroup } from "@/components/List";
 import PageTitle from "@/components/PageTitle";
-import React from "react";
 // API
 import { useKanbans } from "@/hooks/Kanban";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const KanbanContext = React.createContext<IkanbanContext>({
-  tags: [],
+  tags: {
+    array: [],
+    map: {},
+  },
   setTags: () => {},
+  narrowMold: false,
+  setNarrowMold: () => {},
 });
 
 const Kanban: React.FC = () => {
@@ -19,7 +25,13 @@ const Kanban: React.FC = () => {
   // 目前登入人員
   const user = queryClient.getQueryData(["useAuth"]) as IUser;
 
-  const [tags, setTags] = React.useState<Itag[]>([]);
+  const [tags, setTags] = useState<ITagsContext>({
+    array: [],
+    map: {},
+  });
+
+  // 是否顯示縮小版的 Tag
+  const [narrowMold, setNarrowMold] = useState<boolean>(false);
 
   // 用目前登入人員 ID 取得該人員所有看板
   const { data: queryKanbans } = useKanbans({
@@ -30,7 +42,9 @@ const Kanban: React.FC = () => {
 
   if (!kanban) return <div />;
   return (
-    <KanbanContext.Provider value={{ tags, setTags }}>
+    <KanbanContext.Provider
+      value={{ tags, setTags, narrowMold, setNarrowMold }}
+    >
       <section className="h-full flex flex-col">
         <Bread />
         <PageTitle className="my-3">{kanban.name}</PageTitle>

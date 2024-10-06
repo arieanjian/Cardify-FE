@@ -39,6 +39,15 @@ h5 {
   background-color: rgb(245, 245, 245);
 }
 
+.tagModal .ant-modal-header {
+  background-color: rgb(245, 245, 245);
+  padding: 12px 12px 0px 12px;
+}
+.tagModal .ant-modal-content {
+  padding: 6px;
+  background-color: rgb(245, 245, 245);
+}
+
 @layer components {
   .flex-center {
     @apply flex items-center justify-center gap-1;

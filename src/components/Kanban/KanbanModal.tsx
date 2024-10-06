@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import { Modal,Typography, Flex, Input, Divider, Button } from "antd";
+import { Button, Divider, Flex, Input, Modal, Typography } from "antd";
+import React, { useState } from "react";
+
 // init value
 import { KANBAN_INIT_VALUE } from "@/util/initValue";
 // api
@@ -20,7 +21,6 @@ const KanbanModal: React.FC<Iprops> = ({
   workspaceId, // workspace id
   kanbanData = KANBAN_INIT_VALUE, // 編輯的 kanban 資料(沒傳會有預設值)
 }) => {
-
   const [kanbanName, setKanbanName] = useState(""); // 要建立 or 修改的看板名稱
   const addKanban_mutation = useAddKanban({
     onSuccess: closeKanbanModal,
@@ -68,7 +68,7 @@ const KanbanModal: React.FC<Iprops> = ({
             </Button>
           </Flex>
         </Flex>
-    </section>
+      </section>
     </Modal>
   );
 };

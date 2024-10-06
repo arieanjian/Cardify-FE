@@ -7,12 +7,12 @@ interface Iprops {
   onSuccess: () => void;
 }
 
-const useUpdateTag = ({ onSuccess }: Iprops) => {
+const useAddCard = ({ onSuccess }: Iprops) => {
   const { message } = App.useApp();
   return useMutation({
-    mutationFn: async (mutation_data: Itag) => {
+    mutationFn: async (mutation_data: IaddCard) => {
       const res: IapiResponse = await instance.post(
-        "/tag/updateTag",
+        "/card/addCard",
         mutation_data
       );
       const { data, msg, status } = res;
@@ -30,4 +30,4 @@ const useUpdateTag = ({ onSuccess }: Iprops) => {
   });
 };
 
-export default useUpdateTag;
+export default useAddCard;
