@@ -1,13 +1,11 @@
-import Bread from "@/components/Bread";
-// component
-import { ContextType } from "@/components/Layout/Content";
-import { KanbanGroup } from "@/components/Kanban";
 import React from "react";
-import { Typography } from "antd";
 import { useOutletContext } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-
-const { Title } = Typography;
+// component
+import PageTitle from "@/components/PageTitle";
+import Bread from "@/components/Bread";
+import { KanbanGroup } from "@/components/Workspace";
+import { ContextType } from "@/components/Layout/Content";
 
 const Workspace: React.FC = () => {
   const queryClient = useQueryClient();
@@ -23,7 +21,7 @@ const Workspace: React.FC = () => {
   return (
     <>
       <Bread />
-      <Title className="mt-5 mb-7">Overview</Title>
+      <PageTitle className="mt-5 mb-7">Overview</PageTitle>
       <section className="overflow-y-auto flex flex-col gap-6 flex-1 p-2">
         {queryWs?.workspaces?.map((workspace) => (
           <KanbanGroup

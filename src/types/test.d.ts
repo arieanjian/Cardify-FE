@@ -7,6 +7,7 @@ interface Column {
 
 interface Task {
   id: Id;
+  order: number;
   columnId: Id;
   content: string;
 }

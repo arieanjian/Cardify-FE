@@ -7,19 +7,20 @@ interface IProps {
   queryParams?: IQueryParams; // 連線時的 query params
 }
 // 傳遞給後端的 query params 資料型態 (key-value pair)
-type IQueryParams = { [key: string]: string | number | boolean };
+export type IQueryParams = { [key: string]: string | number | boolean };
 
 // 聲明 useWebSocket 的返回值類型(方便寫 unit test)
 export interface WebSocketState {
   ws: WebSocket | null;
   lastMessage: IlastMessage | null;
+  isLoading: boolean;
   createSocket: () => void;
   parseQuery: (query: IQueryParams | null) => string | null;
 }
 
 interface IlastMessage {
   status: boolean;
-  message: string;
+  msg: string;
   data: any;
 }
 
@@ -28,6 +29,8 @@ const useWebSocket = (props: IProps): WebSocketState => {
   // 將 socketRef 初始化為 null
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [lastMessage, setLastMessage] = useState<IlastMessage | null>(null);
+  // 是否正在等待後端回應
+  const [isLoading, setIsLoading] = useState(false);
 
   // 建立 WebSocket 實例
   const createSocket = async () => {
@@ -50,17 +53,16 @@ const useWebSocket = (props: IProps): WebSocketState => {
   };
 
   // 解析後端傳來的訊息
-  // const onMessage = (jsonString: string): IlastMessage => {
-  //   if (!message) {
-  //     return {
-  //       status: false,
-  //       message: "webSocket回應錯誤",
-  //       data: null,
-  //     };
-  //   }
-  //   const msg = JSON.parse(message);
-
-  // };
+  const onMessage = (jsonString: string): IlastMessage => {
+    if (!jsonString) {
+      return {
+        status: false,
+        msg: "webSocket回應錯誤",
+        data: null,
+      };
+    }
+    return JSON.parse(jsonString);
+  };
 
   useEffect(() => {
     if (!ws) return;
@@ -70,8 +72,10 @@ const useWebSocket = (props: IProps): WebSocketState => {
     };
     ws.onmessage = (event) => {
       console.log(`webSocket接收到後端訊息`);
-      console.log("event.data", event);
-      // const tmpData = onMessage(event.data);
+      const parseData = onMessage(event.data);
+      setLastMessage(parseData);
+      // 設定 isLoading 為 false
+      setIsLoading(false);
     };
   }, [ws]);
 
@@ -84,9 +88,11 @@ const useWebSocket = (props: IProps): WebSocketState => {
     const queryString = parseQuery(queryParams);
     // queryString 不為 null 時傳送資料給後端
     if (queryString) ws.send(queryString);
+    // 設定 isLoading 為 true
+    setIsLoading(true);
   }, [queryParams, ws?.readyState]);
 
-  return { ws, createSocket, parseQuery, lastMessage };
+  return { ws, createSocket, parseQuery, lastMessage, isLoading };
 };
 
 export default useWebSocket;

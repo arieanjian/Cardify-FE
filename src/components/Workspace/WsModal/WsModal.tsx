@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-import { Input, Typography, Flex, Divider, Button, message } from "antd";
-import { DefaultOptionType as Ioption } from "antd/es/select";
-// api
-import useUsers from "@/hooks/useUsers";
-import useMembers from "@/hooks/Member/useMembers";
-import { useAddWs } from "@/hooks/Workspace";
+import { Button, Divider, Flex, Input, Typography, message } from "antd";
 // component
-import { MemberSelect, MemberList } from "@/components/Member";
-// util
-import debounce from "@/util/debounce";
+import { MemberList, MemberSelect } from "@/components/Member";
+import React, { useEffect, useState } from "react";
+
+import { DefaultOptionType as Ioption } from "antd/es/select";
+import { useAddWs } from "@/hooks/Workspace";
+// api
+import useMembers from "@/hooks/Member/useMembers";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Iprops {
   closeWsModal: () => void; // 關閉 Modal
@@ -31,13 +29,9 @@ const WsModal: React.FC<Iprops> = ({ wsData, closeWsModal }) => {
   // 判斷現在是新建 or 修改
   const isCreate = wsData._id.length === 0;
 
-  const [userName, setUserName] = useState(""); // 用來搜尋 member
   const [workspaceName, setWorkspaceName] = useState(""); // 要新增的 workspaceName
   const [members, setMembers] = useState<Imember[]>([owner]); // 要新增的 member
 
-  const { data: queryUsers, ...usersResult } = useUsers({
-    username: userName,
-  });
   const { data: quertMembers } = useMembers({
     workspaceId: wsData._id,
   });
@@ -89,19 +83,11 @@ const WsModal: React.FC<Iprops> = ({ wsData, closeWsModal }) => {
     }
   };
 
-  const searchUserByName = debounce((newValue: string) => {
-    setUserName(newValue);
-  }, 1000);
-
-  console.log(userName);
-
   useEffect(() => {
     if (quertMembers.length > 0) {
       setMembers(quertMembers);
     }
   }, [quertMembers]);
-
-  console.log("queryUsers = ", queryUsers);
 
   return (
     <section className="border-solid border-0 border-t border-[#F5F5F5]">
@@ -122,10 +108,8 @@ const WsModal: React.FC<Iprops> = ({ wsData, closeWsModal }) => {
             Members<span className="text-red-500">*</span>
           </Text>
           <MemberSelect
-            users={queryUsers}
-            loading={usersResult.isFetching}
             onChange={addMember}
-            onSearch={isCreate ? searchUserByName : undefined}
+            // onSearch={isCreate ? searchUserByName : undefined}
           />
         </Flex>
 

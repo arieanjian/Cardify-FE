@@ -1,7 +1,8 @@
-import { message } from "antd";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+
 // API
 import instance from "@/service/instance";
+import { message } from "antd";
 
 interface Iprops {
   username?: string;

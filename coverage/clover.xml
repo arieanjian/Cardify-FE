@@ -1,36 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1713719952437" clover="3.2.0">
-  <project timestamp="1713719952437" name="All files">
-    <metrics statements="27" coveredstatements="23" conditionals="13" coveredconditionals="9" methods="7" coveredmethods="6" elements="47" coveredelements="38" complexity="0" loc="27" ncloc="27" packages="1" files="1" classes="1"/>
-    <file name="useWebSocket.ts" path="/Users/arienwen/Desktop/FrontEnd/Cardify-FE/src/hooks/webSocket/useWebSocket.ts">
-      <metrics statements="27" coveredstatements="23" conditionals="13" coveredconditionals="9" methods="7" coveredmethods="6"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="18" count="1" type="stmt"/>
-      <line num="19" count="12" type="cond" truecount="0" falsecount="1"/>
-      <line num="21" count="12" type="stmt"/>
-      <line num="24" count="12" type="stmt"/>
-      <line num="25" count="2" type="stmt"/>
-      <line num="26" count="2" type="stmt"/>
-      <line num="29" count="12" type="cond" truecount="0" falsecount="1"/>
-      <line num="31" count="7" type="cond" truecount="3" falsecount="0"/>
-      <line num="33" count="7" type="cond" truecount="1" falsecount="0"/>
-      <line num="35" count="1" type="cond" truecount="1" falsecount="1"/>
-      <line num="36" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="37" count="1" type="stmt"/>
-      <line num="40" count="0" type="stmt"/>
-      <line num="43" count="12" type="stmt"/>
-      <line num="44" count="12" type="cond" truecount="1" falsecount="0"/>
-      <line num="46" count="2" type="stmt"/>
-      <line num="47" count="1" type="stmt"/>
-      <line num="49" count="2" type="stmt"/>
-      <line num="50" count="0" type="stmt"/>
-      <line num="55" count="12" type="stmt"/>
-      <line num="57" count="12" type="cond" truecount="1" falsecount="0"/>
-      <line num="59" count="2" type="cond" truecount="1" falsecount="0"/>
-      <line num="60" count="0" type="stmt"/>
-      <line num="62" count="0" type="cond" truecount="0" falsecount="1"/>
-      <line num="65" count="12" type="stmt"/>
-      <line num="68" count="1" type="stmt"/>
-    </file>
+<coverage generated="1716192072295" clover="3.2.0">
+  <project timestamp="1716192072295" name="All files">
+    <metrics statements="47" coveredstatements="35" conditionals="21" coveredconditionals="16" methods="9" coveredmethods="6" elements="77" coveredelements="57" complexity="0" loc="47" ncloc="47" packages="2" files="2" classes="2"/>
+    <package name="hooks.webSocket">
+      <metrics statements="37" coveredstatements="25" conditionals="14" coveredconditionals="9" methods="8" coveredmethods="5"/>
+      <file name="useWebSocket.ts" path="/Users/arienwen/Desktop/FrontEnd/Cardify-FE/src/hooks/webSocket/useWebSocket.ts">
+        <metrics statements="37" coveredstatements="25" conditionals="14" coveredconditionals="9" methods="8" coveredmethods="5"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="30" count="10" type="stmt"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="41" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="43" count="7" type="cond" truecount="3" falsecount="0"/>
+        <line num="45" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="47" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="48" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="56" count="10" type="stmt"/>
+        <line num="57" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="67" count="10" type="stmt"/>
+        <line num="68" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="83" count="10" type="stmt"/>
+        <line num="85" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="87" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="90" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="95" count="10" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="util.kanban">
+      <metrics statements="10" coveredstatements="10" conditionals="7" coveredconditionals="7" methods="1" coveredmethods="1"/>
+      <file name="arrayMoveWithOrder.ts" path="/Users/arienwen/Desktop/FrontEnd/Cardify-FE/src/util/kanban/arrayMoveWithOrder.ts">
+        <metrics statements="10" coveredstatements="10" conditionals="7" coveredconditionals="7" methods="1" coveredmethods="1"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="8" count="7" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="6" type="cond" truecount="3" falsecount="0"/>
+        <line num="12" count="3" type="cond" truecount="3" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>
