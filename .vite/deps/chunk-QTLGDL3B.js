@@ -1,7 +1,4 @@
 import {
-  require_react_dom
-} from "./chunk-JKRHIO6T.js";
-import {
   CSS,
   add,
   canUseDOM,
@@ -25,6 +22,9 @@ import {
   usePrevious,
   useUniqueId
 } from "./chunk-BZPCZCI5.js";
+import {
+  require_react_dom
+} from "./chunk-JKRHIO6T.js";
 import {
   require_react
 } from "./chunk-P4SDTMBK.js";
@@ -3521,4 +3521,4 @@ export {
   defaultDropAnimationConfiguration,
   DragOverlay
 };
-//# sourceMappingURL=chunk-Q4LUBB6L.js.map
+//# sourceMappingURL=chunk-QTLGDL3B.js.map

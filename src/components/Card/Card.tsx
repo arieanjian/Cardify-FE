@@ -25,7 +25,7 @@ const Card: React.FC<IProps> = (props) => {
 
   // 是否顯示新增 Card 的 Modal
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
-
+  // console.log("task.id = ", task.id);
   const {
     setNodeRef,
     attributes,

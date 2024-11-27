@@ -224,7 +224,7 @@ const CustDndContext: React.FC<Iprops> = ({
     >
       {children}
       <DragOverlay>
-        <div className="rotate-[5deg] flex h-full">
+        <div className="rotate-[5deg] w-[255px] flex h-full">
           {activeList && (
             <List list={activeList} tasks={tasks} setTasks={setTasks} />
           )}
